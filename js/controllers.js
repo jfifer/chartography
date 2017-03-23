@@ -218,12 +218,14 @@ appCtrl.controller('homeController', function ($rootScope, $scope, Auth, Portal,
     //google.charts.load("current", {packages:["corechart"]});
     switch($scope.config.type) {
       case "histogram" :
+        google.charts.load("current", {packages:["corechart"]});
         angular.forEach(res, function(value, key) {
           $scope.data.push(['', value.y]);
         });
         google.charts.setOnLoadCallback($scope.drawHistogram);
         break;
       case "bar" :
+        google.charts.load("current", {packages:["corechart"]});
         $scope.data.push(['', 'Count']);
         angular.forEach(res, function(value, key) {
           $scope.data.push([value.x, parseInt(value.y)]);
@@ -231,6 +233,7 @@ appCtrl.controller('homeController', function ($rootScope, $scope, Auth, Portal,
         google.charts.setOnLoadCallback($scope.drawBar);
         break;
       case "pie" :
+        google.charts.load("current", {packages:["corechart"]});
         angular.forEach(res, function(value, key) {
           $scope.data.push([value.x, parseInt(value.y)]);
         });
