@@ -1,0 +1,42 @@
+<div ng-init="init()">
+  <form ng-submit="login(auth)" ng-controller="authController" class="panel panel-default login" name="loginForm" ng-if="!loggedIn">
+    <div class="panel-heading">
+      Login
+    </div>
+    <div class="panel-body">
+      <div class="form-group">
+        <input type="email" required ng-model="auth.username" placeholder="Username" class="form-control" />
+      </div>
+      <div class="form-group">
+        <input required ng-model="auth.password" type="password" placeholder="Password" class="form-control" />
+      </div>
+    </div>
+    <div class="panel-footer">
+      <button type=submit>Login</button>
+    </div>
+  </form>
+
+  <div id="home" ng-if="loggedIn" style="width: 100%; margin: 0 auto;">
+    <div id="header">
+      <div id="userstuff" style="float:right;">
+        {{username}} <i class="fa fa-rebel clickable" ng-click="logout()"></i>
+      </div>
+      <div class="menu">
+        <ul>
+          <li><a href="/">Chart Builder</a>></li>
+          <li><a href="/charts">My Charts</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="container">
+      <uib-tabset active="active">
+        <uib-tab index="0" heading="Voicemail">
+          <ng-include src="'assets/partials/voicemail.html'"></ng-include> 
+        </uib-tab>
+        <uib-tab index="1" heading="CDR" disable="tab.disabled">
+          CDR
+        </uib-tab>
+      </uib-tabset>    
+    </div>
+  </div>
+</div>
