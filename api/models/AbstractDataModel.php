@@ -96,7 +96,7 @@ abstract class AbstractDataModel {
     if($date['rangeType'] === "fixed") {
       if($date['fixed']['start'] === '' && $date['fixed']['end'] === '') {
         return null;
-      } elseif($date['fixed']['start'] !== '' && $date['fixed']['end'] === '') {
+     } elseif($date['fixed']['start'] !== '' && $date['fixed']['end'] === '') {
         $sql .= "start LIKE '%".$date['fixed']['start']."%' ";
       } else {
         $sql .= "start BETWEEN '".$date['fixed']['start']."' AND '".$date['fixed']['end']."' ";
@@ -157,7 +157,10 @@ abstract class AbstractDataModel {
     return $sql;
   }
 
-   
+  function buildComplexQuery($params) {
+    
+  }
+
   function convert_to_array2($dataResource) {
     $newArray = array();
     $var_type = gettype($dataResource);

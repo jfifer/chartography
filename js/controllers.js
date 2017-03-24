@@ -41,6 +41,9 @@ appCtrl.controller('homeController', function ($rootScope, $scope, Auth, Portal,
   $scope.selectedChart = "";
   $scope.selectedYaxis = "";
   $scope.selectedXaxis = "";
+  
+  $scope.xLabel = "";
+  $scope.yLabel = "";
 
   $scope.selectX = "";
   $scope.selectY = "";
@@ -49,7 +52,7 @@ appCtrl.controller('homeController', function ($rootScope, $scope, Auth, Portal,
   $scope.dateRange = "fixed";
   $scope.relDateFrame = "MONTH";
 
-  $scope.xaxisItems = ["Date", "Day", "FeatureServers", "Contexts"];
+  $scope.xaxisItems = ["Hour", "Day", "Month", "FeatureServers", "Contexts"];
   $scope.availableCharts = ["histogram", "bar", "pie", "calendar"];
   $scope.yaxisItems = ["Count", "Duration"];
   $scope.stackbyItems = ["context", "fs", "customerId", "mailbox"];
@@ -59,9 +62,11 @@ appCtrl.controller('homeController', function ($rootScope, $scope, Auth, Portal,
     $scope.selected.yaxis = val; 
     switch(val) {
       case "Count" :
+        $scope.yLabel = "Count";
         $scope.selectY = "COUNT(*)";
         break;
       case "Duration" :
+        $scope.yLabel = "Duration";
         $scope.selectY = "AVG(TIMESTAMPDIFF(SECOND, start, end))";
         break;
       default :
@@ -69,23 +74,32 @@ appCtrl.controller('homeController', function ($rootScope, $scope, Auth, Portal,
     } 
   };
   $scope.set_selectedXaxis = function(val) { 
-    $scope.selected.xaxis = val;
-    console.log(val); 
-    switch(val) {
-      case "Date" :
-        $scope.selectX = "start";
-        break;
-      case "Day" :
-        $scope.selectX = "date_format(start, '%Y-%m-%d')";
-        break;
-      case "FeatureServers" :
-        $scope.selectX = "fs";
-        break;
-      case "Contexts" :
-        $scope.selectX = "context";
-        break;
-      default :
-        break;
+    if(val === $scope.selected.xaxis) {
+      $scope.selected.xaxis = "";
+    } else {
+      $scope.selected.xaxis = val;
+      switch(val) {
+        case "Hour" :
+          $scope.selected.stackby.push("x");
+          $scope.selectX = "date_format(start, '%Y-%m-%d %H')";
+          break;
+        case "Day" :
+          $scope.selected.stackby.push("x");
+          $scope.selectX = "date_format(start, '%Y-%m-%d')";
+          break;
+        case "Month" :
+          $scope.selected.stackby.push("x");
+          $scope.selectX = "date_format(start, '%Y-%m')";
+          break;
+        case "FeatureServers" :
+          $scope.selectX = "fs";
+          break;
+        case "Contexts" :
+          $scope.selectX = "context";
+          break;
+        default :
+          break;
+      }
     }
   };
   $scope.set_selectedStackby = function(val) { 
@@ -155,6 +169,8 @@ appCtrl.controller('homeController', function ($rootScope, $scope, Auth, Portal,
       'type' : $scope.selected.chart,
       'selectX': $scope.selectX,
       'selectY': $scope.selectY,
+      'yLabel': $scope.yLabel,
+      'xLabel': $scope.xLabel,
       'tbl': "vmfinal",
       'groupBy': $scope.selected.stackby,
       'fields': {
@@ -226,7 +242,7 @@ appCtrl.controller('homeController', function ($rootScope, $scope, Auth, Portal,
         break;
       case "bar" :
         google.charts.load("current", {packages:["corechart"]});
-        $scope.data.push(['', 'Count']);
+        $scope.data.push(['', $scope.config.yLabel]);
         angular.forEach(res, function(value, key) {
           $scope.data.push([value.x, parseInt(value.y)]);
         });
@@ -321,6 +337,9 @@ appCtrl.controller('homeController', function ($rootScope, $scope, Auth, Portal,
   $ctrl.cancel = function () {
     $uibModalInstance.dismiss('cancel');
   };
+})
+.controller('portalController', function($scopei, Portal) {
+
 })
 .controller('savedChartsController', function($scope) {
 

@@ -1,8 +1,8 @@
 <?php
-define( 'DB_NAME_PORTAL', 'bi_new' );
-define( 'DB_USER_PORTAL', 'dataguy' );
-define( 'DB_PASS_PORTAL', 'unicorn' );
-define( 'DB_SERVER_PORTAL', '172.16.127.63' );
+define( 'DB_NAME_PORTAL', 'portal' );
+define( 'DB_USER_PORTAL', 'spbilling' );
+define( 'DB_PASS_PORTAL', 'b1cycl3s' );
+define( 'DB_SERVER_PORTAL', 'backup-db.webapp.coredial.com' );
 define( 'DB_PORT_PORTAL', '3306' );
 
 define( 'DB_NAME_VM', 'voicemail' );
