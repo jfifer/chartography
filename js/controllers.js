@@ -52,7 +52,8 @@ appCtrl.controller('homeController', function ($rootScope, $scope, Auth, Portal,
   $scope.dateRange = "fixed";
   $scope.relDateFrame = "MONTH";
 
-  $scope.xaxisItems = [
+  $scope.yaxisItems = [
+    { "label": "--none--", "sql": null },
     { "label": "Hour", "sql": "date_format(start, '%Y-%m-%d %H')" },
     { "label": "Day", "sql": "date_format(start, '%Y-%m-%d')" },
     { "label": "Month", "sql": "date_format(start, '%Y-%m')" },
@@ -66,7 +67,8 @@ appCtrl.controller('homeController', function ($rootScope, $scope, Auth, Portal,
     { "label": "Bar Chart", "name": "bar" },
     { "label": "Pie Chart", "name": "pie" }   
   ];
-  $scope.yaxisItems = [
+  $scope.xaxisItems = [
+    { "label": "--none--", "sql": null },
     { "label": "Count", "sql": "COUNT(*)" },
     { "label": "Duration", "sql": "AVG(TIMESTAMPDIFF(SECOND, start, end))" }
   ];
@@ -89,8 +91,8 @@ appCtrl.controller('homeController', function ($rootScope, $scope, Auth, Portal,
     stackby : []
   }
 
-  $scope.getContexts = function(fs) {
-    Vm.query({server: "context", context: fs}, function(res) {
+  $scope.getContexts = function() {
+    Vm.query({server: "context", context: $scope.selected.servers}, function(res) {
       $scope.contexts = res;
     });
   };
@@ -206,7 +208,7 @@ appCtrl.controller('homeController', function ($rootScope, $scope, Auth, Portal,
       case "histogram" :
         google.charts.load("current", {packages:["corechart"]});
         angular.forEach(res, function(value, key) {
-          $scope.data.push(['', value.y]);
+          $scope.data.push(['', value.x]);
         });
         google.charts.setOnLoadCallback($scope.drawHistogram);
         break;
@@ -214,14 +216,14 @@ appCtrl.controller('homeController', function ($rootScope, $scope, Auth, Portal,
         google.charts.load("current", {packages:["corechart"]});
         $scope.data.push(['', $scope.config.yLabel]);
         angular.forEach(res, function(value, key) {
-          $scope.data.push([value.x, parseInt(value.y)]);
+          $scope.data.push([value.y, parseInt(value.x)]);
         });
         google.charts.setOnLoadCallback($scope.drawBar);
         break;
       case "pie" :
         google.charts.load("current", {packages:["corechart"]});
         angular.forEach(res, function(value, key) {
-          $scope.data.push([value.x, parseInt(value.y)]);
+          $scope.data.push([value.y, parseInt(value.x)]);
         });
         google.charts.setOnLoadCallback($scope.drawPie);
         break;

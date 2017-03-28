@@ -21,7 +21,7 @@
             <div class="panel-body">
               <div class="form-group query-group">
                 <input class="form-control" ng-model="fs_search" />
-                <select ng-options="item as item.fs for item in featureServers | filter:fs_search" ng-model="selected.servers" class="form-control" multiple></select>
+                <select ng-options="item.fs as item.fs for item in featureServers | filter:fs_search" ng-model="selected.servers" class="form-control" multiple ng-change="getContexts()"></select>
               </div>
               <div class="form-group query-group">
                 <input class="form-control" ng-model="ctx_search" />
@@ -87,12 +87,12 @@
                 <select ng-options="item as item.label for item in availableCharts" ng-model="selected.chart" class="form-control"></select>
               </div>
               <div class="form-group query-group">
-                <h4>X Axis</h4>
-                <select ng-options="item as item.label for item in xaxisItems" ng-model="selected.xaxis" class="form-control"></select>
-              </div>
-              <div class="form-group query-group">
                 <h4>Y Axis</h4>
                 <select ng-options="item as item.label for item in yaxisItems" ng-model="selected.yaxis" class="form-control"></select>
+              </div>
+              <div class="form-group query-group">
+                <h4>X Axis</h4>
+                <select ng-options="item as item.label for item in xaxisItems" ng-model="selected.xaxis" class="form-control"></select>
               </div>
               <div class="form-group query-group">
                 <h4>Stack By</h4>

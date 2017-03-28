@@ -9,11 +9,13 @@ body{ margin: 0; }
 
 .form-group.query-group {
   float: left;
-  height: 200px;
   max-height: 200px;
   width: 200px;
   padding: 10px;
-  overflow-y: scroll;
+}
+
+.query-group select[multiple] {
+  height: 150px;
 }
 
 .query-group ul {
