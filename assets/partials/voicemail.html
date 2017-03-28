@@ -20,14 +20,12 @@
             </div>
             <div class="panel-body">
               <div class="form-group query-group">
-                <ul class="parameter">
-                  <li ng-class="inSelected(server.fs, 'servers') ? 'selected' : null" ng-repeat="server in featureServers track by $index" class="clickable" ng-click="fsSelectionChanged(server.fs)">{{server.fs}}</li>
-                </ul>
+                <input class="form-control" ng-model="fs_search" />
+                <select ng-options="item as item.fs for item in featureServers | filter:fs_search" ng-model="selected.servers" class="form-control" multiple></select>
               </div>
               <div class="form-group query-group">
-                <ul class="parameter">
-                  <li ng-class="inSelected(context.context, 'contexts') ? 'selected' : null" ng-repeat="context in contexts track by $index" class="clickable" ng-click="ctxSelectionChanged(context.context)">{{context.context}}</li>
-                </ul>
+                <input class="form-control" ng-model="ctx_search" />
+                <select ng-options="item as item.context for item in contexts | filter:ctx_search" ng-model="selected.contexts" multiple class="form-control"></select>
               </div>
             </div>
           </div>
@@ -86,27 +84,19 @@
             <div class="panel-body">
               <div class="form-group query-group">
                 <h4>Chart Type</h4>
-                <ul>
-                  <li ng-class="{'selected' : isSelected(item, 'chart')}" class="clickable" ng-click="set_selectedChart(item)" ng-repeat="item in availableCharts">{{item}}</li>
-                </ul>
+                <select ng-options="item as item.label for item in availableCharts" ng-model="selected.chart" class="form-control"></select>
               </div>
               <div class="form-group query-group">
                 <h4>X Axis</h4>
-                <ul>
-                  <li ng-class="{'selected' : isSelected(item, 'xaxis')}" class="clickable" ng-click="set_selectedXaxis(item)" ng-repeat="item in xaxisItems">{{item}}</li>
-                </ul>
+                <select ng-options="item as item.label for item in xaxisItems" ng-model="selected.xaxis" class="form-control"></select>
               </div>
               <div class="form-group query-group">
                 <h4>Y Axis</h4>
-                <ul>
-                  <li ng-class="{'selected' : isSelected(item, 'yaxis')}" class="clickable" ng-click="set_selectedYaxis(item)" ng-repeat="item in yaxisItems">{{item}}</li>
-                </ul>
+                <select ng-options="item as item.label for item in yaxisItems" ng-model="selected.yaxis" class="form-control"></select>
               </div>
               <div class="form-group query-group">
                 <h4>Stack By</h4>
-                <ul>
-                  <li ng-class="{'selected' : inSelected(item, 'stackby')}" class="clickable" ng-click="set_selectedStackby(item)" ng-repeat="item in stackbyItems">{{item}}</li>
-                </ul>
+                <select ng-options="item.name as item.label for item in stackbyItems" ng-model="selected.stackby" class="form-control" multiple></select>
               </div>
             </div>
           </div>

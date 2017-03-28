@@ -109,7 +109,7 @@ abstract class AbstractDataModel {
 
   function buildSimpleQuery($params) {
     $hasField = FALSE;
-    if($params['selectX'] !== '') {
+    if(isset($params['selectX']) && $params['selectX'] !== '') {
       $sql = "SELECT ".$params['selectX']." as x, ".$params['selectY']." as y FROM ".$params['tbl']." ";
     } else {
       $sql = "SELECT ".$params['selectY']." as y FROM ".$params['tbl']." ";

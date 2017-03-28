@@ -52,70 +52,38 @@ appCtrl.controller('homeController', function ($rootScope, $scope, Auth, Portal,
   $scope.dateRange = "fixed";
   $scope.relDateFrame = "MONTH";
 
-  $scope.xaxisItems = ["Hour", "Day", "Month", "FeatureServers", "Contexts"];
-  $scope.availableCharts = ["histogram", "bar", "pie", "calendar"];
-  $scope.yaxisItems = ["Count", "Duration"];
-  $scope.stackbyItems = ["context", "fs", "customerId", "mailbox"];
+  $scope.xaxisItems = [
+    { "label": "Hour", "sql": "date_format(start, '%Y-%m-%d %H')" },
+    { "label": "Day", "sql": "date_format(start, '%Y-%m-%d')" },
+    { "label": "Month", "sql": "date_format(start, '%Y-%m')" },
+    { "label": "Year", "sql": "date_format(start, '%Y')" },
+    { "label": "Feature Servers", "sql": "distinct(fs)" },
+    { "label": "Context", "sql": "distinct(context)" },
+    { "label": "Customer", "sql": "distinct(customerId)" }
+  ];
+  $scope.availableCharts = [
+    { "label": "Histogram", "name": "histogram" },
+    { "label": "Bar Chart", "name": "bar" },
+    { "label": "Pie Chart", "name": "pie" }   
+  ];
+  $scope.yaxisItems = [
+    { "label": "Count", "sql": "COUNT(*)" },
+    { "label": "Duration", "sql": "AVG(TIMESTAMPDIFF(SECOND, start, end))" }
+  ];
+  $scope.stackbyItems = [
+    { "label": "Feature Server", "name": "fs" },
+    { "label": "Context", "name": "context" },
+    { "label": "Date", "name": "start" },
+    { "label": "Customer", "name": "customerId" },
+    { "label": "Mailbox", "name": "mailbox" }
+  ];
 
-  $scope.set_selectedChart = function(val) { $scope.selected.chart = val; };
-  $scope.set_selectedYaxis = function(val) {
-    $scope.selected.yaxis = val; 
-    switch(val) {
-      case "Count" :
-        $scope.yLabel = "Count";
-        $scope.selectY = "COUNT(*)";
-        break;
-      case "Duration" :
-        $scope.yLabel = "Duration";
-        $scope.selectY = "AVG(TIMESTAMPDIFF(SECOND, start, end))";
-        break;
-      default :
-        break;
-    } 
-  };
-  $scope.set_selectedXaxis = function(val) { 
-    if(val === $scope.selected.xaxis) {
-      $scope.selected.xaxis = "";
-    } else {
-      $scope.selected.xaxis = val;
-      switch(val) {
-        case "Hour" :
-          $scope.selected.stackby.push("x");
-          $scope.selectX = "date_format(start, '%Y-%m-%d %H')";
-          break;
-        case "Day" :
-          $scope.selected.stackby.push("x");
-          $scope.selectX = "date_format(start, '%Y-%m-%d')";
-          break;
-        case "Month" :
-          $scope.selected.stackby.push("x");
-          $scope.selectX = "date_format(start, '%Y-%m')";
-          break;
-        case "FeatureServers" :
-          $scope.selectX = "fs";
-          break;
-        case "Contexts" :
-          $scope.selectX = "context";
-          break;
-        default :
-          break;
-      }
-    }
-  };
-  $scope.set_selectedStackby = function(val) { 
-    idx = $scope.selected.stackby.indexOf(val);
-    if(idx >= 0) {
-      $scope.selected.stackby.splice(idx, 1);
-    } else {
-      $scope.selected.stackby.push(val);
-    }
-  };
 
   $scope.selected = {
     chart : "",
     xaxis : "",
     yaxis : "",
-    stackby : "",
+    stackby : [],
     servers : [],
     contexts : [],
     stackby : []
@@ -165,10 +133,11 @@ appCtrl.controller('homeController', function ($rootScope, $scope, Auth, Portal,
   };
 
   $scope.open = function (size) {
+//    console.log($scope.selected);
     $scope.query = {
-      'type' : $scope.selected.chart,
-      'selectX': $scope.selectX,
-      'selectY': $scope.selectY,
+      'type' : $scope.selected.chart.name,
+      'selectX': $scope.selected.xaxis.sql,
+      'selectY': $scope.selected.yaxis.sql,
       'yLabel': $scope.yLabel,
       'xLabel': $scope.xLabel,
       'tbl': "vmfinal",
@@ -209,6 +178,7 @@ appCtrl.controller('homeController', function ($rootScope, $scope, Auth, Portal,
       size: size,
       resolve: {
         config: function () {
+          console.log($scope.query);
           return $scope.query;
         }
       }
