@@ -135,8 +135,8 @@ appCtrl.controller('homeController', function ($rootScope, $scope, Auth, Portal,
   };
 
   $scope.open = function (size) {
-//    console.log($scope.selected);
     $scope.query = {
+      'title': $scope.chartTitle,
       'type' : $scope.selected.chart.name,
       'selectX': $scope.selected.xaxis.sql,
       'selectY': $scope.selected.yaxis.sql,
@@ -180,7 +180,6 @@ appCtrl.controller('homeController', function ($rootScope, $scope, Auth, Portal,
       size: size,
       resolve: {
         config: function () {
-          console.log($scope.query);
           return $scope.query;
         }
       }
@@ -203,10 +202,10 @@ appCtrl.controller('homeController', function ($rootScope, $scope, Auth, Portal,
   $scope.config = config;
   $scope.data = [];
   Query.query({model: "VmModel", chart: $scope.config.type}, $scope.config, function(res) {
-    //google.charts.load("current", {packages:["corechart"]});
     switch($scope.config.type) {
       case "histogram" :
         google.charts.load("current", {packages:["corechart"]});
+        $scope.data.push(['', $scope.config.xLabel]);
         angular.forEach(res, function(value, key) {
           $scope.data.push(['', value.x]);
         });
@@ -255,8 +254,10 @@ appCtrl.controller('homeController', function ($rootScope, $scope, Auth, Portal,
 
   $scope.drawPie = function() {
     var options = {
+      title: $scope.config.title,
       height: 500,
-      width: 850
+      width: 850,
+      legend: { position: 'top' }
     };
     var data = new google.visualization.DataTable()
     data.addColumn('string', "Server");
@@ -268,6 +269,7 @@ appCtrl.controller('homeController', function ($rootScope, $scope, Auth, Portal,
 
   $scope.drawBar = function() {
     var options = {
+      title: $scope.config.title,
       height: 550,
       legend: { position: 'top'},
     };
@@ -280,8 +282,8 @@ appCtrl.controller('homeController', function ($rootScope, $scope, Auth, Portal,
   $scope.drawHistogram = function() {
     var data = google.visualization.arrayToDataTable($scope.data);
     var options = {
-      title: '',
-      legend: { position: 'none' },
+      title: $scope.config.title,
+      legend: { position: 'top' },
       colors: ['#2368b3'],
       hAxis: {
         viewWindow: {
@@ -310,8 +312,11 @@ appCtrl.controller('homeController', function ($rootScope, $scope, Auth, Portal,
     $uibModalInstance.dismiss('cancel');
   };
 })
-.controller('portalController', function($scopei, Portal) {
+.controller('portalController', function($scope, Portal) {
 
+})
+.controller('extensionsController', function($scope, Portal) {
+  
 })
 .controller('savedChartsController', function($scope) {
 

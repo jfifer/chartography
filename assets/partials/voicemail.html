@@ -83,20 +83,25 @@
             </div>
             <div class="panel-body">
               <div class="form-group query-group">
-                <h4>Chart Type</h4>
-                <select ng-options="item as item.label for item in availableCharts" ng-model="selected.chart" class="form-control"></select>
+                <label for="chartType">Chart Type</label>
+                <select name="chartType" ng-options="item as item.label for item in availableCharts" ng-model="selected.chart" class="form-control"></select>
+                <label for="title">Chart Title</label><input name="title" ng-model="chartTitle" class="form-control" />
               </div>
               <div class="form-group query-group">
-                <h4>Y Axis</h4>
-                <select ng-options="item as item.label for item in yaxisItems" ng-model="selected.yaxis" class="form-control"></select>
+                <label for="yaxis">Y Axis</label>
+                <select name="yaxis" ng-options="item as item.label for item in yaxisItems" ng-model="selected.yaxis" class="form-control"></select>
+                <label for="yLabel">Label</label>
+                <input name="yLabel" ng-model="yLabel" class="form-control" />
               </div>
               <div class="form-group query-group">
-                <h4>X Axis</h4>
-                <select ng-options="item as item.label for item in xaxisItems" ng-model="selected.xaxis" class="form-control"></select>
+                <label for="xaxis">X Axis</label>
+                <select name="xaxis" ng-options="item as item.label for item in xaxisItems" ng-model="selected.xaxis" class="form-control"></select>
+                <label for="xLabel">Label</label>
+                <input name="xLabel" ng-model="xLabel" class="form-control" />
               </div>
               <div class="form-group query-group">
-                <h4>Stack By</h4>
-                <select ng-options="item.name as item.label for item in stackbyItems" ng-model="selected.stackby" class="form-control" multiple></select>
+                <label for="stack">Stack By</label>
+                <select name="stack"ng-options="item.name as item.label for item in stackbyItems" ng-model="selected.stackby" class="form-control" multiple></select>
               </div>
             </div>
           </div>
