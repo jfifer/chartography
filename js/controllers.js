@@ -58,6 +58,8 @@ appCtrl.controller('homeController', function ($rootScope, $scope, Auth, Portal,
     { "label": "Day", "sql": "date_format(start, '%Y-%m-%d')" },
     { "label": "Month", "sql": "date_format(start, '%Y-%m')" },
     { "label": "Year", "sql": "date_format(start, '%Y')" },
+    { "label": "Count", "sql": "COUNT(*)" },
+    { "label": "Duration", "sql": "AVG(TIMESTAMPDIFF(SECOND, start, end))" },
     { "label": "Feature Servers", "sql": "distinct(fs)" },
     { "label": "Context", "sql": "distinct(context)" },
     { "label": "Customer", "sql": "distinct(customerId)" }
@@ -70,7 +72,9 @@ appCtrl.controller('homeController', function ($rootScope, $scope, Auth, Portal,
   $scope.xaxisItems = [
     { "label": "--none--", "sql": null },
     { "label": "Count", "sql": "COUNT(*)" },
-    { "label": "Duration", "sql": "AVG(TIMESTAMPDIFF(SECOND, start, end))" }
+    { "label": "Duration", "sql": "AVG(TIMESTAMPDIFF(SECOND, start, end))" },
+    { "label": "Day", "sql": "date_format(start, '%Y-%m-%d')" },
+    { "label": "Month", "sql": "date_format(start, '%Y-%m')" },
   ];
   $scope.stackbyItems = [
     { "label": "Feature Server", "name": "fs" },
@@ -316,7 +320,13 @@ appCtrl.controller('homeController', function ($rootScope, $scope, Auth, Portal,
 
 })
 .controller('extensionsController', function($scope, Portal) {
-  
+  $scope.extension = {
+    'types' : [
+      { "id": "sip", "name": "SIP" },
+      { "id": "cloud", "name": "Cloud" },
+      { "id": "std", "name": "Standard" }
+    ]
+  };  
 })
 .controller('savedChartsController', function($scope) {
 

@@ -19,7 +19,8 @@
           <h4>Stuff</h4>
         </div>
         <div class="panel-body">
-          blah blah blah
+          <label for="ext-type">Type</label>
+          <select ng-options="type.id as type.name for type in extension.types" ng-model="extType"></select>
         </div>
       </div>
     </div>

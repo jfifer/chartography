@@ -17,7 +17,7 @@ class VmModel extends AbstractDataModel {
     $sql = $this->buildSimpleQuery($params);
     $dataResource = mysqli_query($this->get_dbh_vm(), $sql);
     return $this->convert_to_array2($dataResource);
- //   return $sql;
+    return $sql;
   }
 
   function doPieChart($params) {
